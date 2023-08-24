@@ -122,8 +122,8 @@ If you discover any security related issues, please email jamescarloluchavez@gma
 
 MIT. Please see the [license file](license.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/luchavez/passport-pgt-server.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/luchavez/passport-pgt-server.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/luchavez/passport-pgt-server.svg
+[ico-downloads]: https://img.shields.io/packagist/dt/luchavez/passport-pgt-server.svg
 [ico-stars]: https://img.shields.io/github/stars/luchavez-technologies/passport-pgt-server
 [ico-discord]: https://img.shields.io/discord/1143744619956404295?color=8c9eff&label=Discord&logo=discord
 [ico-twitter]: https://img.shields.io/twitter/follow/luchaveztech
