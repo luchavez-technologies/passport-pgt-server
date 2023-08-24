@@ -40,12 +40,15 @@ class PassportPgtServerServiceProvider extends BaseStarterKitServiceProvider
         parent::boot();
 
         // Add Passport Routes
-        if (! $this->app->routesAreCached()) {
+        if (! $this->app->routesAreCached() && method_exists(Passport::class, 'routes')) {
+            // In Passport v11, "routes" method has been removed.
             Passport::routes();
         }
 
-        // Override Auth Config
-        passportPgtServer()->setPassportAsApiDriver();
+        if (! $this->app->configurationIsCached()) {
+            // Override Auth Config
+            passportPgtServer()->setPassportAsApiDriver();
+        }
 
         // Hash Client Secrets
         if (passportPgtServer()->hashClientSecrets()) {
@@ -66,8 +69,8 @@ class PassportPgtServerServiceProvider extends BaseStarterKitServiceProvider
     public function register(): void
     {
         // Register the service the package provides.
-        $this->app->singleton('passport-pgt-server', function ($app, $params) {
-            return new PassportPgtServer(collect($params)->get('auth_server_controller'));
+        $this->app->singleton('passport-pgt-server', function ($app) {
+            return new PassportPgtServer($app);
         });
 
         parent::register();

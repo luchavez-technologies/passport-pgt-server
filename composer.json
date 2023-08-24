@@ -1,6 +1,6 @@
 {
     "name": "luchavez/passport-pgt-server",
-    "description": "Laravel Passport Password Grant Tokens Server",
+    "description": "Laravel Passport Password Grant Tokens Server for Laravel 8|9|10",
     "license": "MIT",
     "authors": [
         {
@@ -9,18 +9,18 @@
             "homepage": "https://www.linkedin.com/in/jsluchavez"
         }
     ],
-    "homepage": "https://github.com/luchmewep/passport-pgt-server",
+    "homepage": "https://github.com/luchavez-technologies/passport-pgt-server",
     "keywords": ["Laravel", "PassportPgtServer"],
     "require": {
         "php": "^8.0",
-        "illuminate/support": "~8|~9",
-        "laravel/passport": "^10.4",
+        "illuminate/support": "~8|~9|~10",
+        "laravel/passport": "^10.4|^11.5",
         "luchavez/passport-pgt-client": "^1.0"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
         "phpunit/phpunit": "~9.0",
-        "orchestra/testbench": "~6|~7"
+        "orchestra/testbench": "~6|~7|~8"
     },
     "autoload": {
         "psr-4": {

@@ -2,8 +2,9 @@
 
 namespace Luchavez\PassportPgtServer\Services;
 
+use Closure;
+use Illuminate\Foundation\Application;
 use Luchavez\PassportPgtClient\Traits\HasAuthMethodsTrait;
-use Luchavez\PassportPgtServer\Http\Controllers\DefaultAuthController;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Carbon;
@@ -25,14 +26,14 @@ class PassportPgtServer
     protected array $controllers = [];
 
     /**
-     * @param  string|null  $authController
+     * @param Application $application
      */
-    public function __construct(string $authController = null)
+    public function __construct(protected Application $application)
     {
         // Rehydrate first
         $this->controllers = $this->getControllers()->toArray();
 
-        $this->setAuthController($authController ?? DefaultAuthController::class, false, false);
+        $this->setAuthController(config('passport-pgt-server.auth_controller'), false, false);
     }
 
     /**
@@ -67,6 +68,24 @@ class PassportPgtServer
             }
         } else {
             config([$key => $value]);
+        }
+    }
+
+    /**
+     * @param Closure|null $load_public_key
+     * @param Closure|null $load_private_key
+     * @return void
+     */
+    public function setPassportEncryptionKeys(Closure|null $load_public_key, Closure|null $load_private_key): void
+    {
+        if (! $this->application->configurationIsCached()) {
+            if ($load_public_key && $value=$load_public_key()) {
+                config(['passport.public_key' => $value]);
+            }
+
+            if ($load_private_key && $value=$load_private_key()) {
+                config(['passport.private_key' => $value]);
+            }
         }
     }
 

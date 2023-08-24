@@ -1,4 +1,8 @@
-# Passport Password Grant Tokens (PGC) Server
+# Passport Password Grant Tokens (PGC) Server for Laravel 8|9|10
+
+[![Latest Version on Packagist][ico-version]][link-packagist]
+[![Total Downloads][ico-downloads]][link-downloads]
+[![Discord][ico-discord]][link-discord]
 
 **Laravel Passport** is an authentication package for Laravel. It is used by a lot of Laravel apps to authenticate users before accessing any resources. Basically, it generates an `access token` which you can then use on every request to provide identification to the `OAuth Server`.
 
@@ -120,10 +124,12 @@ MIT. Please see the [license file](license.md) for more information.
 [ico-downloads]: https://img.shields.io/packagist/dt/luchavez/passport-pgt-server.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/luchavez/passport-pgt-server/master.svg?style=flat-square
 [ico-styleci]: https://styleci.io/repos/12345678/shield
+[ico-discord]: https://img.shields.io/discord/1143744619956404295?color=8c9eff&label=Discord&logo=discord
 
 [link-packagist]: https://packagist.org/packages/luchavez/passport-pgt-server
 [link-downloads]: https://packagist.org/packages/luchavez/passport-pgt-server
 [link-travis]: https://travis-ci.org/luchavez/passport-pgt-server
 [link-styleci]: https://styleci.io/repos/12345678
-[link-author]: https://github.com/luchmewep
+[link-author]: https://github.com/luchavez-technologies
 [link-contributors]: ../../contributors
+[link-discord]: https://discord.gg/bFpDTgp3

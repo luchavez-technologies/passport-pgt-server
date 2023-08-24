@@ -1,5 +1,7 @@
 <?php
 
+use Luchavez\PassportPgtServer\Http\Controllers\DefaultAuthController;
+
 return [
     'access_token_expires_in' => [
         'time_unit' => env('PPS_AT_EXPIRE_UNIT', 'days'),
@@ -14,4 +16,5 @@ return [
         'time_value' => env('PPS_PAT_EXPIRE_VALUE', 6),
     ],
     'hash_client_secrets' => (bool) env('PPS_HASH_CLIENT_SECRETS', false),
+    'auth_controller' => DefaultAuthController::class,
 ];
