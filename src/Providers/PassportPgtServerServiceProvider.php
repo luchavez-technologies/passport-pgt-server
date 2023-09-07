@@ -2,6 +2,7 @@
 
 namespace Luchavez\PassportPgtServer\Providers;
 
+use Luchavez\PassportPgtServer\Console\Commands\InstallPassportPGTServerCommand;
 use Luchavez\PassportPgtServer\Services\PassportPgtServer;
 use Luchavez\StarterKit\Abstracts\BaseStarterKitServiceProvider;
 use Laravel\Passport\Passport;
@@ -13,6 +14,10 @@ use Laravel\Passport\Passport;
  */
 class PassportPgtServerServiceProvider extends BaseStarterKitServiceProvider
 {
+    protected array $commands = [
+        InstallPassportPGTServerCommand::class,
+    ];
+
     /**
      * Publishable Environment Variables
      *
@@ -21,13 +26,10 @@ class PassportPgtServerServiceProvider extends BaseStarterKitServiceProvider
      * @var array
      */
     protected array $env_vars = [
-        'PPS_AT_EXPIRE_UNIT' => 'days',
-        'PPS_AT_EXPIRE_VALUE' => 15,
-        'PPS_RT_EXPIRE_UNIT' => 'days',
-        'PPS_RT_EXPIRE_VALUE' => 30,
-        'PPS_PAT_EXPIRE_UNIT' => 'days',
-        'PPS_PAT_EXPIRE_VALUE' => 6,
-        'PPS_HASH_CLIENT_SECRETS' => false,
+        'PASSPORT_ACCESS_TOKEN_EXPIRES_IN' => '15 days',
+        'PASSPORT_REFRESH_TOKEN_EXPIRES_IN' => '30 days',
+        'PASSPORT_PERSONAL_ACCESS_TOKEN_EXPIRES_IN' => '6 days',
+        'PASSPORT_HASH_CLIENT_SECRETS' => false,
     ];
 
     /**
@@ -95,7 +97,10 @@ class PassportPgtServerServiceProvider extends BaseStarterKitServiceProvider
     {
         // Publishing the configuration file.
         $this->publishes([
-            __DIR__.'/../config/passport-pgt-server.php' => config_path('passport-pgt-server.php'),
+            __DIR__.'/../../config/passport-pgt-server.php' => config_path('passport-pgt-server.php'),
         ], 'passport-pgt-server.config');
+
+        // Registering package commands.
+        $this->commands($this->commands);
     }
 }

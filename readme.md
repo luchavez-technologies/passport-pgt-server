@@ -19,7 +19,11 @@ Take a look at [contributing.md](contributing.md) if you want to contribute to t
 Via Composer
 
 ``` bash
-$ composer require luchavez/passport-pgt-server
+// Install the package and its dependencies
+$ composer require luchavez/passport-pgt-server --with-all-dependencies
+
+// Publish the config, migrate Passport tables, and run passport:install
+$ php artisan pgt:server:install
 ```
 
 ## Setting Up
@@ -30,15 +34,12 @@ $ composer require luchavez/passport-pgt-server
 
 3. Add these variables to `.env` file if you want to override the default values.
 
-| Variable Name             | Default Value |
-|---------------------------|---------------|
-| `PPS_AT_EXPIRE_UNIT`      | days          |
-| `PPS_AT_EXPIRE_VALUE`     | 15            |
-| `PPS_RT_EXPIRE_UNIT`      | days          |
-| `PPS_RT_EXPIRE_VALUE`     | 30            |
-| `PPS_PAT_EXPIRE_UNIT`     | days          |
-| `PPS_PAT_EXPIRE_VALUE`    | 6             |
-| `PPS_HASH_CLIENT_SECRETS` | false         |
+| Variable Name                                | Default Value |
+|----------------------------------------------|---------------|
+| `PASSPORT_ACCESS_TOKEN_EXPIRES_IN`           | 15 days       |
+| `PASSPORT_REFRESH_TOKEN_EXPIRES_IN`          | 30 days       |
+| `PASSPORT_PERSONAL_ACCESS_TOKEN_EXPIRES_IN`  | 6 days        |
+| `PASSPORT_HASH_CLIENT_SECRETS`               | false         |
 
 ## Usage
 
@@ -50,33 +51,22 @@ The package provides a service called [**PassportPgtServer**](src/Services/Passp
 
 Here's the list of its available methods.
 
-| Method Name                             | Return Type                            | Description                                                     |
-|-----------------------------------------|----------------------------------------|-----------------------------------------------------------------|
-| `setPassportAsApiDriver`                | `void`                                 | adds `api` authentication guard with `passport` as driver       |
-| `setAuthServerController`               | `void`                                 | sets the `AuthServerController`                                 |
-| `getAuthServerController`               | `array`                                | gets the `AuthServerController`                                 |
-| `setLogoutAuthController`               | `void`                                 | sets the `LogoutAuthController`                                 |
-| `getLogoutAuthController`               | `array`                                | gets the `LogoutAuthController`                                 |
-| `setMeAuthController`                   | `void`                                 | sets the `MeAuthController`                                     |
-| `getMeAuthController`                   | `array`                                | gets the `MeAuthController`                                     |
-| `hashClientSecrets`                     | `bool`                                 | decides whether to hash or not client's secrets                 |
-| `getTokensExpiresInUnit`                | `string`                               | gets the time unit for access token expiration                  |
-| `getTokensExpiresInValue`               | `int`                                  | gets the time value for access token expiration                 |
-| `getTokensExpiresIn`                    | `Illuminate\Support\Carbon`            | gets the `Carbon` datetime for access token expiration          |
-| `getRefreshTokensExpiresInUnit`         | `string`                               | gets the time unit for refresh token expiration                 |
-| `getRefreshTokensExpiresInValue`        | `int`                                  | gets the time value for refresh token expiration                |
-| `getRefreshTokensExpiresIn`             | `Illuminate\Support\Carbon`            | gets the `Carbon` datetime for refresh token expiration         |
-| `getPersonalAccessTokensExpiresInUnit`  | `string`                               | gets the time unit for personal access token expiration         |
-| `getPersonalAccessTokensExpiresInValue` | `int`                                  | gets the time unit for personal access token expiration         |
-| `getPersonalAccessTokensExpiresIn`      | `Illuminate\Support\Carbon`            | gets the `Carbon` datetime for personal access token expiration |
-| `getTokenModel`                         | `string`                               | gets the model class name                                       |
-| `getTokenBuilder`                       | `Illuminate\Database\Eloquent\Builder` | gets the model builder instance                                 |
-| `getRefreshTokenModel`                  | `string`                               | gets the model class name                                       |
-| `getRefreshTokenBuilder`                | `Illuminate\Database\Eloquent\Builder` | gets the model builder instance                                 |
-| `getPersonalAccessTokenModel`           | `string`                               | gets the model class name                                       |
-| `getPersonalAccessTokenBuilder`         | `Illuminate\Database\Eloquent\Builder` | gets the model builder instance                                 |
-| `getClientModel`                        | `string`                               | gets the model class name                                       |
-| `getClientBuilder`                      | `Illuminate\Database\Eloquent\Builder` | gets the model builder instance                                 |
+| Method Name                          | Return Type                            | Description                                                     |
+|--------------------------------------|----------------------------------------|-----------------------------------------------------------------|
+| `setPassportAsApiDriver`             | `void`                                 | adds `api` authentication guard with `passport` as driver       |
+| `setPassportEncryptionKeys`          | `void`                                 | used for overriding Passport encryption keys                    |
+| `hashClientSecrets`                  | `bool`                                 | decides whether to hash or not client's secrets                 |
+| `getTokensExpiresIn`                 | `Illuminate\Support\Carbon`            | gets the `Carbon` datetime for access token expiration          |
+| `getRefreshTokensExpiresIn`          | `Illuminate\Support\Carbon`            | gets the `Carbon` datetime for refresh token expiration         |
+| `getPersonalAccessTokensExpiresIn`   | `Illuminate\Support\Carbon`            | gets the `Carbon` datetime for personal access token expiration |
+| `getTokenModel`                      | `string`                               | gets the model class name                                       |
+| `getTokenBuilder`                    | `Illuminate\Database\Eloquent\Builder` | gets the model builder instance                                 |
+| `getRefreshTokenModel`               | `string`                               | gets the model class name                                       |
+| `getRefreshTokenBuilder`             | `Illuminate\Database\Eloquent\Builder` | gets the model builder instance                                 |
+| `getPersonalAccessTokenModel`        | `string`                               | gets the model class name                                       |
+| `getPersonalAccessTokenBuilder`      | `Illuminate\Database\Eloquent\Builder` | gets the model builder instance                                 |
+| `getClientModel`                     | `string`                               | gets the model class name                                       |
+| `getClientBuilder`                   | `Illuminate\Database\Eloquent\Builder` | gets the model builder instance                                 |
 
 ### Routes
 
@@ -84,16 +74,14 @@ By default, `laravel/passport` adds authentication related routes. This package 
 
 Here's the list of routes that this package provides.
 
-| Method | Route               | Description                                                         |
-|--------|---------------------|---------------------------------------------------------------------|
-| POST   | `/oauth/token`      | Added by `laravel/passport`. This route generates the tokens.       |
-| POST   | `/api/oauth/logout` | This route revokes the current `access token` with `refresh token`. |
-| GET    | `/api/oauth/me`     | This route returns the access token's user information.             |
+| Method | Route                 | Description                                                         |
+|--------|-----------------------|---------------------------------------------------------------------|
+| POST   | `/oauth/token`        | Added by `laravel/passport`. This route generates the tokens.       |
+| GET    | `/api/oauth/register` | This route is where we register a new user.                         |
+| POST   | `/api/oauth/logout`   | This route revokes the current `access token` with `refresh token`. |
+| GET    | `/api/oauth/me`       | This route returns the access token's user information.             |
 
-*Note*: If you wish to override the logout or get self logic, feel free to do so by using these methods from `PassportPgtServer` class:
-- `setAuthServerController()`
-- `setLogoutAuthController()`
-- `setMeAuthController()`
+*Note*: If you wish to override the logout or get self logic, feel free to do so by updating the published `passport-pgt-server` config file.
 
 ## Change log
 

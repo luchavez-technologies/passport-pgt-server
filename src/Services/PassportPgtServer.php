@@ -4,9 +4,7 @@ namespace Luchavez\PassportPgtServer\Services;
 
 use Closure;
 use Illuminate\Foundation\Application;
-use Luchavez\PassportPgtClient\Traits\HasAuthMethodsTrait;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Carbon;
 use Laravel\Passport\Passport;
 use RuntimeException;
@@ -18,30 +16,12 @@ use RuntimeException;
  */
 class PassportPgtServer
 {
-    use HasAuthMethodsTrait;
-
-    /**
-     * @var array
-     */
-    protected array $controllers = [];
-
     /**
      * @param Application $application
      */
     public function __construct(protected Application $application)
     {
-        // Rehydrate first
-        $this->controllers = $this->getControllers()->toArray();
-
-        $this->setAuthController(config('passport-pgt-server.auth_controller'), false, false);
-    }
-
-    /**
-     * @return string
-     */
-    public function getMainTag(): string
-    {
-        return 'passport-pgt-server';
+        //
     }
 
     /***** CONFIG-RELATED *****/
@@ -89,22 +69,6 @@ class PassportPgtServer
         }
     }
 
-    /***** CONTROLLER-RELATED *****/
-
-    /**
-     * @param  string  $controller
-     * @param  bool  $override
-     * @param  bool  $throw_error
-     */
-    public function setAuthController(string $controller, bool $override = false, bool $throw_error = true): void
-    {
-        if (is_subclass_of($controller, Controller::class)) {
-            $this->setRegisterController($controller, $override, $throw_error);
-            $this->setLogoutController($controller, $override, $throw_error);
-            $this->setMeController($controller, $override, $throw_error);
-        }
-    }
-
     /***** TOKEN EXPIRATIONS *****/
 
     /**
@@ -116,43 +80,11 @@ class PassportPgtServer
     }
 
     /**
-     * @return string
-     */
-    public function getTokensExpiresInUnit(): string
-    {
-        return config('passport-pgt-server.access_token_expires_in.time_unit');
-    }
-
-    /**
-     * @return int
-     */
-    public function getTokensExpiresInValue(): int
-    {
-        return config('passport-pgt-server.access_token_expires_in.time_value');
-    }
-
-    /**
      * @return Carbon
      */
     public function getTokensExpiresIn(): Carbon
     {
-        return now()->add($this->getTokensExpiresInValue().' '.$this->getTokensExpiresInUnit());
-    }
-
-    /**
-     * @return string
-     */
-    public function getRefreshTokensExpiresInUnit(): string
-    {
-        return config('passport-pgt-server.access_token_expires_in.time_unit');
-    }
-
-    /**
-     * @return int
-     */
-    public function getRefreshTokensExpiresInValue(): int
-    {
-        return config('passport-pgt-server.access_token_expires_in.time_value');
+        return Carbon::parse(config('passport-pgt-server.access_token_expires_in'));
     }
 
     /**
@@ -160,23 +92,7 @@ class PassportPgtServer
      */
     public function getRefreshTokensExpiresIn(): Carbon
     {
-        return now()->add($this->getRefreshTokensExpiresInValue().' '.$this->getRefreshTokensExpiresInUnit());
-    }
-
-    /**
-     * @return string
-     */
-    public function getPersonalAccessTokensExpiresInUnit(): string
-    {
-        return config('passport-pgt-server.access_token_expires_in.time_unit');
-    }
-
-    /**
-     * @return int
-     */
-    public function getPersonalAccessTokensExpiresInValue(): int
-    {
-        return config('passport-pgt-server.access_token_expires_in.time_value');
+        return Carbon::parse(config('passport-pgt-server.refresh_token_expires_in'));
     }
 
     /**
@@ -184,7 +100,7 @@ class PassportPgtServer
      */
     public function getPersonalAccessTokensExpiresIn(): Carbon
     {
-        return now()->add($this->getPersonalAccessTokensExpiresInValue().' '.$this->getPersonalAccessTokensExpiresInUnit());
+        return Carbon::parse(config('passport-pgt-server.personal_access_token_expires_in'));
     }
 
     /***** MODELS & BUILDERS *****/
