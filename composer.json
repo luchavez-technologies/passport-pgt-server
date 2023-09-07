@@ -10,12 +10,12 @@
         }
     ],
     "homepage": "https://github.com/luchavez-technologies/passport-pgt-server",
-    "keywords": ["Laravel", "PassportPgtServer"],
+    "keywords": ["Laravel", "PassportPgtServer", "OAuth2"],
     "require": {
         "php": "^8.0",
         "illuminate/support": "~8|~9|~10",
         "laravel/passport": "^10.4|^11.5",
-        "luchavez/passport-pgt-client": "^1.0"
+        "luchavez/passport-pgt-client": "^2.0"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
@@ -42,8 +42,8 @@
             }
         },
         "branch-alias": {
-            "dev-master": "1.0.x-dev",
-            "dev-develop": "1.0.x-dev"
+            "dev-master": "2.0.x-dev",
+            "dev-develop": "2.0.x-dev"
         }
     }
 }
