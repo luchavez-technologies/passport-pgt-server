@@ -3,8 +3,8 @@
 namespace Luchavez\PassportPgtServer\Services;
 
 use Closure;
-use Illuminate\Foundation\Application;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Carbon;
 use Laravel\Passport\Passport;
 use RuntimeException;
@@ -17,7 +17,7 @@ use RuntimeException;
 class PassportPgtServer
 {
     /**
-     * @param Application $application
+     * @param  Application  $application
      */
     public function __construct(protected Application $application)
     {
@@ -52,18 +52,18 @@ class PassportPgtServer
     }
 
     /**
-     * @param Closure|null $load_public_key
-     * @param Closure|null $load_private_key
+     * @param  Closure|null  $load_public_key
+     * @param  Closure|null  $load_private_key
      * @return void
      */
-    public function setPassportEncryptionKeys(Closure|null $load_public_key, Closure|null $load_private_key): void
+    public function setPassportEncryptionKeys(?Closure $load_public_key, ?Closure $load_private_key): void
     {
         if (! $this->application->configurationIsCached()) {
-            if ($load_public_key && $value=$load_public_key()) {
+            if ($load_public_key && $value = $load_public_key()) {
                 config(['passport.public_key' => $value]);
             }
 
-            if ($load_private_key && $value=$load_private_key()) {
+            if ($load_private_key && $value = $load_private_key()) {
                 config(['passport.private_key' => $value]);
             }
         }

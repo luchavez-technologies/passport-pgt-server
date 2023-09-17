@@ -2,10 +2,10 @@
 
 namespace Luchavez\PassportPgtServer\Providers;
 
+use Laravel\Passport\Passport;
 use Luchavez\PassportPgtServer\Console\Commands\InstallPassportPGTServerCommand;
 use Luchavez\PassportPgtServer\Services\PassportPgtServer;
 use Luchavez\StarterKit\Abstracts\BaseStarterKitServiceProvider;
-use Laravel\Passport\Passport;
 
 /**
  * Class PassportPgtServerServiceProvider

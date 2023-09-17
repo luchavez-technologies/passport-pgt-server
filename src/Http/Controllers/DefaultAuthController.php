@@ -3,11 +3,11 @@
 namespace Luchavez\PassportPgtServer\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Luchavez\PassportPgtServer\DataFactories\UserDataFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Laravel\Passport\RefreshTokenRepository;
 use Laravel\Passport\TokenRepository;
+use Luchavez\PassportPgtServer\DataFactories\UserDataFactory;
 
 /**
  * Class DefaultAuthController
@@ -55,6 +55,7 @@ class DefaultAuthController extends Controller
      * Logout
      *
      * @group Authentication (Server)
+     *
      * @authenticated
      *
      * @param  Request  $request
@@ -83,6 +84,7 @@ class DefaultAuthController extends Controller
      * Get Self
      *
      * @group Authentication (Server)
+     *
      * @authenticated
      *
      * @param  Request  $request

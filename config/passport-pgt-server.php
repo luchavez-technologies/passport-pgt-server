@@ -18,13 +18,13 @@ return [
             'uri' => 'oauth/logout',
             'action' => [DefaultAuthController::class, 'logout'],
             'middleware' => 'auth:api',
-            'http_method' => 'post'
+            'http_method' => 'post',
         ],
         'me' => [
             'uri' => 'oauth/me',
             'action' => [DefaultAuthController::class, 'me'],
             'middleware' => 'auth:api',
-            'http_method' => 'get'
+            'http_method' => 'get',
         ],
-    ]
+    ],
 ];

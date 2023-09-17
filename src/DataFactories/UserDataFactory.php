@@ -2,11 +2,9 @@
 
 namespace Luchavez\PassportPgtServer\DataFactories;
 
-use App\Models\User;
-use Luchavez\StarterKit\Abstracts\BaseDataFactory;
-// Model
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Hash;
+use Luchavez\StarterKit\Abstracts\BaseDataFactory;
 
 /**
  * Class UserDataFactory
